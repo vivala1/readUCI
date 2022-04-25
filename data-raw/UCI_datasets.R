@@ -19,18 +19,24 @@ library(tidyverse)
 
 url <- read_html("https://archive.ics.uci.edu/ml/datasets.php")
 
+# Get all the <a> nodes on the page
 links <- url %>%
   html_nodes("tr") %>%
-  html_nodes("a") %>%
-  html_attr("href") %>%
-  unique()
+  html_nodes("a")
 
-links[-c(1:45)]
+# match up the hrefs with the corresponding text
+urls <- tibble(
+  url = links %>%
+    html_attr("href"),
+  name = links %>%
+    html_text()
+) %>%
+  filter(name != "") %>%
+  distinct(url, .keep_all = TRUE)
 
 large_table <- url %>%
   html_nodes(css = "table") %>%
   html_table(fill = TRUE) 
-
 
 UCI_datasets <- large_table[[6]]
 UCI_datasets <- UCI_datasets[-1, -1:-2]
@@ -42,13 +48,21 @@ UCI_datasets <- UCI_datasets %>%
   filter(!is.na(name))
 
 UCI_datasets <- UCI_datasets %>%
-  mutate(data_types = ifelse(data_types == "", NA, data_types),
-         default_task = ifelse(default_task == "", NA, default_task),
-         attribute_types = ifelse(attribute_types == "", NA, attribute_types),
-         num_instances = ifelse(num_instances == "", NA, num_instances),
-         num_attributes = ifelse(num_attributes == "", NA, num_attributes),
-         year = ifelse(year == "", NA, year)
-  )
+  mutate(
+    data_types = ifelse(data_types == "", NA, data_types),
+    default_task = ifelse(default_task == "", NA, default_task),
+    attribute_types = ifelse(attribute_types == "", NA, attribute_types),
+    num_instances = ifelse(num_instances == "", NA, num_instances),
+    num_attributes = ifelse(num_attributes == "", NA, num_attributes),
+    year = ifelse(year == "", NA, year)
+  ) %>% 
+  left_join(urls, by = "name")
+
+# duplicates
+UCI_datasets %>%
+  group_by(name) %>%
+  count(2) %>%
+  filter(n > 1)
 
 
 usethis::use_data(UCI_datasets, overwrite = TRUE)
