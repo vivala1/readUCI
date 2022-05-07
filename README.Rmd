@@ -55,7 +55,7 @@ head(UCI_datasets)
 
 ### `args_UCI`
 
-The dataset `args_UCI` provides the user with the arguments needed to import data from the UCI repository using the read_UCI function. This includes the link to the data set in the repository, and the dataset webpage.
+The dataset `args_UCI` provides the user with the arguments needed to import data from the UCI repository using the `read_UCI()` function. This includes the link to the data set in the repository, and the dataset webpage.
 
 ```{r}
 head(args_UCI)
