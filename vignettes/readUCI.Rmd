@@ -110,7 +110,7 @@ Note that in the code above, `data_overwrite = TRUE` is required so we can overw
 
 # `preview_names()`
 
-`preview_names` is a function that builds off of the capabilities of `janitor::clean_names()`. By default, it puts the column names into snake case, displays the names, and invisibly returns the data. To save this cleaned version of the names, assign the output of the function back into the dataset.
+`preview_names()` is a function that builds off of the capabilities of `janitor::clean_names()`. By default, it puts the column names into snake case, displays the names, and invisibly returns the data. To save this cleaned version of the names, assign the output of the function back into the dataset.
 
 ```{r}
 breast_tissue <- preview_names(breast_tissue)
@@ -120,9 +120,9 @@ The above displays the column names in snake case, and `breast_tissue` now uses 
 
 If you would like to not replace the column names but still assign the output, you can add `overwrite = FALSE` as an additional argument.
 
-# `test_train_split`
+# `test_train_split()`
 
-The function `test_train_split` allows useres to split a dataset of their choice by test and train datasets. When performing classification methods, instead of splitting test and training data and separating variables into input and output data for class manually, we can use the `test_train_split` function.
+The function `test_train_split()` allows users to split a dataset of their choice by test and train datasets. When performing classification methods, instead of splitting test and training data and separating variables into input and output data for class manually, we can use the `test_train_split()` function.
 
 ```{r}
 iris_uci <- read_UCI("iris", "iris.data")
@@ -132,7 +132,7 @@ iris_datasets$test_set
 iris_datasets$train_set
 ```
 
-The `test_train_split` function also creates test and training data input and outcome variables. Where the input variable represents 'X', and the outcome variable represents the response variable of interest 'Y.'
+The `test_train_split()` function also creates test and training data input and outcome variables. Where the input variable represents 'X', and the outcome variable represents the response variable of interest 'Y.'
 
 ```{r}
 iris_datasets$test_input
